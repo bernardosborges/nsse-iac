@@ -21,18 +21,40 @@ Just run `init` and `apply` **folder by folder**:
 
 ```bash
 
-# 1. Setup remote backend:
+# 0. (Optional) Verify your identity
+aws sts get-caller-identity --profile <YOUR-PROFILE>
+
+# 1. Set AWS profile for Terraform
+export AWS_PROFILE=<YOUR-PROFILE>
+
+# 2. Setup remote backend:
 cd 00-remote-backend
 terraform init
 terraform apply
 
-# 2. Setup networking:
+# 3. Setup networking:
 cd ../01-networking
 terraform init
 terraform apply
 
-# 3. Setup servers:
+# 4. Setup servers:
 cd ../02-server
 terraform init
 terraform apply
+
+# Warning!: Destroy resources in reverse order after use
+terraform destroy
+
+# Extra commands (recomended before 'apply'): 
+# Formats Terraform code according to standard conventions
+terraform fmt
+# Check syntax and code structure for errors
+terraform validate
+# Shows planned changes before applying
+terraform plan
+# Reconfigures backend settings after any changes in backend configuration
+terraform init -reconfigure
+# Migrate the existing state to the new backend (run after reconfigure)
+terraform init -migrate-state
+
 ```
