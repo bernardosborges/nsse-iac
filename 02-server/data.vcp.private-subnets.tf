@@ -4,9 +4,9 @@ data "aws_subnets" "private_subnets" {
     values = [data.aws_vpc.this.id]
   }
 
-    filter {
-        name = "map-public-ip-on-launch"
-        values = [false]
-    }
+  filter {
+    name   = "map-public-ip-on-launch"
+    values = [false]
+  }
 
 }
