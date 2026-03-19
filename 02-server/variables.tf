@@ -90,6 +90,9 @@ variable "control_plane_auto_scaling_group" {
     desired_capacity          = number
     health_check_grace_period = number
     health_check_type         = string
+    instance_tags = object({
+      Name = string
+    })
     instance_maintenance_policy = object({
       min_healthy_percentage = number
       max_healthy_percentage = number
@@ -103,6 +106,9 @@ variable "control_plane_auto_scaling_group" {
     desired_capacity          = 1
     health_check_grace_period = 180
     health_check_type         = "EC2"
+    instance_tags = {
+      Name = "nsse-production-control-plane"
+    }
     instance_maintenance_policy = {
       min_healthy_percentage = 100
       max_healthy_percentage = 110
@@ -147,6 +153,9 @@ variable "worker_auto_scaling_group" {
     desired_capacity          = number
     health_check_grace_period = number
     health_check_type         = string
+    instance_tags = object({
+      Name = string
+    })
     instance_maintenance_policy = object({
       min_healthy_percentage = number
       max_healthy_percentage = number
@@ -160,6 +169,9 @@ variable "worker_auto_scaling_group" {
     desired_capacity          = 1
     health_check_grace_period = 180
     health_check_type         = "EC2"
+    instance_tags = {
+      Name = "nsse-production-worker"
+    }
     instance_maintenance_policy = {
       min_healthy_percentage = 100
       max_healthy_percentage = 110
@@ -173,6 +185,15 @@ variable "debian_patch_baseline" {
     description                          = string
     approved_patches_enable_non_security = bool
     operating_system                     = string
+    approval_rules = list(object({
+      approve_after_days = number
+      compliance_level   = string
+      patch_filter = object({
+        product  = list(string)
+        section  = list(string)
+        priority = list(string)
+      })
+    }))
   })
 
   default = {
@@ -180,10 +201,30 @@ variable "debian_patch_baseline" {
     description                          = "Custom Patch Baseline for Debian Production Servers"
     approved_patches_enable_non_security = false
     operating_system                     = "DEBIAN"
+    approval_rules = [
+      {
+        approve_after_days = 0
+        compliance_level   = "CRITICAL"
+        patch_filter = {
+          product  = ["Debian12"]
+          section  = ["*"]
+          priority = ["Required", "Important"]
+        }
+      },
+      {
+        approve_after_days = 0
+        compliance_level   = "INFORMATIONAL"
+        patch_filter = {
+          product  = ["Debian12"]
+          section  = ["*"]
+          priority = ["Standard"]
+        }
+      }
+    ]
   }
 }
 
-variable "path_group" {
+variable "patch_group" {
   type    = string
   default = "Production"
 }

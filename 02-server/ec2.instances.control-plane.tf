@@ -24,6 +24,11 @@ module "ec2_control_plane_instances" {
     desired_capacity          = var.control_plane_auto_scaling_group.desired_capacity
     health_check_grace_period = var.control_plane_auto_scaling_group.health_check_grace_period
     health_check_type         = var.control_plane_auto_scaling_group.health_check_type
+    instance_tags = merge(
+      { PatchGroup = var.patch_group },
+      var.tags,
+      var.control_plane_auto_scaling_group.instance_tags
+    )
     instance_maintenance_policy = {
       min_healthy_percentage = var.control_plane_auto_scaling_group.instance_maintenance_policy.min_healthy_percentage
       max_healthy_percentage = var.control_plane_auto_scaling_group.instance_maintenance_policy.max_healthy_percentage
