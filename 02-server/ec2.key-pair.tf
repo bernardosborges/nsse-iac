@@ -3,7 +3,7 @@ resource "aws_key_pair" "this" {
   public_key = tls_private_key.this.public_key_openssh
 
   tags = merge(var.tags, {
-    Name = var.ec2_resources.ssh_security_group_name
+    Name = var.ec2_resources.key_pair_name
   })
 }
 
