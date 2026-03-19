@@ -11,6 +11,7 @@ module "ec2_worker_instances" {
     key_name                             = aws_key_pair.this.key_name
     image_id                             = data.aws_ami.this.image_id
     vpc_security_group_ids               = [aws_security_group.allow_ssh.id]
+    user_data                            = filebase64(var.worker_launch_template.user_data)
     ebs = {
       volume_size           = var.worker_launch_template.ebs.volume_size
       delete_on_termination = var.worker_launch_template.ebs.delete_on_termination

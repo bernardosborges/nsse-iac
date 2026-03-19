@@ -19,6 +19,7 @@ variable "launch_template" {
     key_name                             = string
     image_id                             = string
     vpc_security_group_ids               = list(string)
+    user_data                            = string
     ebs = object({
       volume_size = number
       delete_on_termination = bool

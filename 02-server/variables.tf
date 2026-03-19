@@ -58,6 +58,7 @@ variable "control_plane_launch_template" {
     disable_api_termination              = bool
     instance_type                        = string
     instance_initiated_shutdown_behavior = string
+    user_data                            = string
     ebs = object({
       volume_size           = number
       delete_on_termination = bool
@@ -71,6 +72,7 @@ variable "control_plane_launch_template" {
     disable_api_termination              = true
     instance_type                        = "t3.micro"
     instance_initiated_shutdown_behavior = "terminate"
+    user_data                            = "./cli/control-plane-user-data.sh"
     ebs = {
       volume_size           = 20
       delete_on_termination = false # false in production
@@ -113,6 +115,7 @@ variable "worker_launch_template" {
     disable_api_termination              = bool
     instance_type                        = string
     instance_initiated_shutdown_behavior = string
+    user_data                            = string
     ebs = object({
       volume_size           = number
       delete_on_termination = bool
@@ -126,6 +129,7 @@ variable "worker_launch_template" {
     disable_api_termination              = true
     instance_type                        = "t3.micro"
     instance_initiated_shutdown_behavior = "terminate"
+    user_data                            = "./cli/worker-user-data.sh"
     ebs = {
       volume_size           = 20
       delete_on_termination = false # false in production

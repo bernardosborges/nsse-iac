@@ -10,6 +10,7 @@ resource "aws_launch_template" "this" {
 #  image_id                             = data.aws_ami.this.image_id
   vpc_security_group_ids               = var.launch_template.vpc_security_group_ids
 #  vpc_security_group_ids               = [aws_security_group.allow_ssh.id]
+  user_data                            = var.launch_template.user_data
 
   block_device_mappings {
     device_name = "/dev/sdf"

@@ -11,6 +11,7 @@ module "ec2_control_plane_instances" {
     key_name                             = aws_key_pair.this.key_name
     image_id                             = data.aws_ami.this.image_id
     vpc_security_group_ids               = [aws_security_group.allow_ssh.id]
+    user_data                            = filebase64(var.control_plane_launch_template.user_data)
     ebs = {
       volume_size           = var.control_plane_launch_template.ebs.volume_size
       delete_on_termination = var.control_plane_launch_template.ebs.delete_on_termination
