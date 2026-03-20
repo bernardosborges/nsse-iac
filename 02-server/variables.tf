@@ -228,3 +228,54 @@ variable "patch_group" {
   type    = string
   default = "Production"
 }
+
+variable "debian_production_association" {
+  type = object({
+    name                = string
+    schedule_expression = string
+    association_name    = string
+    max_concurrency     = number
+    max_errors          = number
+    output_location = object({
+      s3_key_prefix = string
+    })
+    parameters = object({
+      Operation    = string
+      RebootOption = string
+    })
+    targets = object({
+      key = string
+    })
+  })
+
+  default = {
+    name                = "AWS-RunPatchBaseline"
+    schedule_expression = "cron(*/30 * * * ? *)"
+    association_name    = "DebianRunPatchBaselineAssociation"
+    max_concurrency     = 1
+    max_errors          = 0
+    output_location = {
+      s3_key_prefix = "patching-logs"
+    }
+    parameters = {
+      Operation    = "Install"
+      RebootOption = "RebootIfNeeded"
+    }
+
+    targets = {
+      key = "tag:PatchGroup"
+    }
+  }
+}
+
+variable "logs_bucket" {
+  type = object({
+    bucket        = string
+    force_destroy = bool
+  })
+
+  default = {
+    bucket        = "nsse-production-logs-bsb"
+    force_destroy = true
+  }
+}
