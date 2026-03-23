@@ -19,5 +19,9 @@ resource "aws_rds_cluster" "this" {
     seconds_until_auto_pause = var.rds_aurora_cluster.serverless_scaling_configuration.seconds_until_auto_pause
   }
 
+  lifecycle {
+    ignore_changes = [ availability_zones ]
+  }
+
   tags = var.tags
 }
