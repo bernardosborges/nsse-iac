@@ -119,3 +119,32 @@ variable "s3_application_bucket_name" {
   type    = string
   default = "nsse-application-bucket-bsb"
 }
+
+variable "vpc" {
+  type = object({
+    name = string
+  })
+
+  default = {
+    name = "nsse-vpc"
+  }
+}
+
+variable "db_subnet_group_name" {
+  type    = string
+  default = "nsse-production-db-subnet-group"
+}
+
+variable "security_groups" {
+  type = object({
+    control_plane_security_group_name = string
+    worker_security_group_name        = string
+    rds_security_group_name           = string
+  })
+
+  default = {
+    control_plane_security_group_name = "nsse-production-control-plane-sg"
+    worker_security_group_name        = "nsse-production-worker-sg"
+    rds_security_group_name           = "nsse-production-rds-sg"
+  }
+}
