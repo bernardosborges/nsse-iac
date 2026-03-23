@@ -115,4 +115,7 @@ variable "order_confirmed_topic" {
   }
 }
 
-
+variable "s3_application_bucket_name" {
+  type    = string
+  default = "nsse-application-bucket-bsb"
+}
