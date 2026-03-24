@@ -162,6 +162,7 @@ variable "rds_aurora_cluster" {
     manage_master_user_password  = bool
     storage_encrypted            = bool
     deletion_protection          = bool
+    skip_final_snapshot          = bool
     instances = list(object({
       instance_class    = string
       identifier        = string
@@ -186,6 +187,7 @@ variable "rds_aurora_cluster" {
     manage_master_user_password  = true
     storage_encrypted            = true
     deletion_protection          = false # true in production
+    skip_final_snapshot          = true  # false in production
     instances = [{
       instance_class    = "db.serverless"
       identifier        = "nsse-instance-us-east-1a"

@@ -8,5 +8,5 @@ resource "aws_rds_cluster_instance" "this" {
   engine             = aws_rds_cluster.this.engine
   engine_version     = aws_rds_cluster.this.engine_version
 
-  tags               = var.tags
+  tags = var.tags
 }

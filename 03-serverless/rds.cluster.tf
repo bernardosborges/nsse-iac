@@ -10,8 +10,10 @@ resource "aws_rds_cluster" "this" {
   manage_master_user_password  = var.rds_aurora_cluster.manage_master_user_password
   storage_encrypted            = var.rds_aurora_cluster.storage_encrypted
   deletion_protection          = var.rds_aurora_cluster.deletion_protection
+  skip_final_snapshot          = var.rds_aurora_cluster.skip_final_snapshot
   db_subnet_group_name         = aws_db_subnet_group.this.name
   vpc_security_group_ids       = [aws_security_group.rds.id]
+
 
   serverlessv2_scaling_configuration {
     max_capacity             = var.rds_aurora_cluster.serverless_scaling_configuration.max_capacity
@@ -20,7 +22,7 @@ resource "aws_rds_cluster" "this" {
   }
 
   lifecycle {
-    ignore_changes = [ availability_zones ]
+    ignore_changes = [availability_zones]
   }
 
   tags = var.tags
