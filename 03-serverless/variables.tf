@@ -205,3 +205,35 @@ variable "rds_aurora_cluster" {
     }
   }
 }
+
+variable "rds_proxy" {
+  type = object({
+    name                = string
+    debug_logging       = bool
+    engine_family       = string
+    idle_client_timeout = number
+    require_tls         = bool
+    auth = object({
+      auth_scheme = string
+      iam_auth    = string
+    })
+    role_name          = string
+    policy_name        = string
+    read_only_endpoint = string
+  })
+
+  default = {
+    name                = "nsse-aurora-serverless-cluster-proxy"
+    debug_logging       = false
+    engine_family       = "POSTGRESQL"
+    idle_client_timeout = 300
+    require_tls         = true
+    auth = {
+      auth_scheme = "SECRETS"
+      iam_auth    = "DISABLED"
+    }
+    role_name          = "nsse-production-rds-proxy-role"
+    policy_name        = "nsse-production-rds-proxy-policy"
+    read_only_endpoint = "nsse-aurora-serverless-cluster-proxy-readonly"
+  }
+}
