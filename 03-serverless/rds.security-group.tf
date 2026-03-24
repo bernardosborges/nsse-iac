@@ -20,6 +20,12 @@ resource "aws_vpc_security_group_ingress_rule" "worker_to_rds_allow_all_traffic_
   ip_protocol                  = "-1"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "rds_to_rds_allow_all_traffic_ipv4" {
+  security_group_id            = aws_security_group.rds.id
+  referenced_security_group_id = aws_security_group.rds.id
+  ip_protocol                  = "-1"
+}
+
 resource "aws_vpc_security_group_egress_rule" "rds_allow_all_traffic_ipv4" {
   security_group_id = aws_security_group.rds.id
   cidr_ipv4         = "0.0.0.0/0"
