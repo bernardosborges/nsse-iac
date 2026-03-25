@@ -45,3 +45,28 @@ terraform.rc
 
 # Key-pair
 *.pem
+
+
+# =========================
+# Node / NPM
+# =========================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.*
+
+# Build outputs
+dist/
+build/
+
+#Lambda packages
+*.zip
+
+# OS
+.DS_Store
