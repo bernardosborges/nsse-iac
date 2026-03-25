@@ -237,3 +237,48 @@ variable "rds_proxy" {
     read_only_endpoint = "nsse-aurora-serverless-cluster-proxy-readonly"
   }
 }
+
+variable "lambda_order_confirmed" {
+  type = object({
+    package_type  = string
+    source_dir    = string
+    output_path   = string
+    function_name = string
+    handler       = string
+    runtime       = string
+    role_name     = string
+    policy_name   = string
+  })
+  default = {
+    package_type  = "zip"
+    source_dir    = "lambdas/order-confirmed/build"
+    output_path   = "lambdas/order-confirmed/outputs/package.zip"
+    function_name = "orderConfirmedLambdaFunction"
+    handler       = "index.handler"
+    runtime       = "nodejs20.x"
+    role_name     = "nsse-production-order-confirmed-lambda-role"
+    policy_name   = "nsse-production-order-confirmed-lambda-policy"
+  }
+}
+
+variable "lambda_layer_node_modules" {
+  type = object({
+    package_type        = string
+    source_dir          = string
+    output_path         = string
+    layer_name          = string
+    compatible_runtimes = list(string)
+  })
+  default = {
+    package_type        = "zip"
+    source_dir          = "lambdas/layers/dependencies"
+    output_path         = "lambdas/order-confirmed/outputs/node_modules_layer.zip"
+    layer_name          = "node_modules"
+    compatible_runtimes = ["nodejs20.x"]
+  }
+}
+
+variable "domain" {
+  type    = string
+  default = "relistapi.xyz"
+}
