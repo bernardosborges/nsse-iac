@@ -140,12 +140,14 @@ variable "security_groups" {
     control_plane_security_group_name = string
     worker_security_group_name        = string
     rds_security_group_name           = string
+    documentdb_security_group_name    = string
   })
 
   default = {
     control_plane_security_group_name = "nsse-production-control-plane-sg"
     worker_security_group_name        = "nsse-production-worker-sg"
     rds_security_group_name           = "nsse-production-rds-sg"
+    documentdb_security_group_name    = "nsse-production-documentdb-sg"
   }
 }
 
@@ -281,4 +283,58 @@ variable "lambda_layer_node_modules" {
 variable "domain" {
   type    = string
   default = "relistapi.xyz"
+}
+
+variable "documentdb_cluster" {
+  type = object({
+    cluster_identifier              = string
+    final_snapshot_identifier       = string
+    engine                          = string
+    master_username                 = string
+    backup_retention_period         = number
+    preferred_backup_window         = string
+    preferred_maintenance_window    = string
+    availability_zones              = list(string)
+    storage_encrypted               = bool
+    enabled_cloudwatch_logs_exports = list(string)
+    skip_final_snapshot             = bool
+    subnet_group_name               = string
+    secret_name                     = string
+    parameter_group = object({
+      family     = string
+      name       = string
+      audit_logs = string
+      profiler   = string
+    })
+    instance = object({
+      identifier = string
+      class      = string
+    })
+  })
+
+  default = {
+    cluster_identifier              = "nsse-production-documentdb-cluster"
+    final_snapshot_identifier       = "nsse-production-documentdb-cluster-final-snapshot"
+    engine                          = "docdb"
+    master_username                 = "nsse"
+    backup_retention_period         = 7
+    preferred_backup_window         = "01:00-02:00"
+    preferred_maintenance_window    = "sun:03:00-sun:04:00"
+    availability_zones              = ["us-east-1a", "us-east-1b"]
+    storage_encrypted               = true
+    enabled_cloudwatch_logs_exports = ["audit", "profiler"]
+    skip_final_snapshot             = true # false in production
+    subnet_group_name               = "nsse-production-documentdb-subnet-group"
+    secret_name                     = "nsse-production-documentdb-secret"
+    parameter_group = {
+      family     = "docdb5.0"
+      name       = "nsse-production-documentdb-parameter-group"
+      audit_logs = "enabled"
+      profiler   = "enabled"
+    }
+    instance = {
+      identifier = "nsse-production-documentdb-single-instance"
+      class      = "db.t3.medium"
+    }
+  }
 }
