@@ -280,6 +280,31 @@ variable "lambda_layer_node_modules" {
   }
 }
 
+variable "lambda_report_job" {
+  type = object({
+    timeout       = number
+    package_type  = string
+    source_dir    = string
+    output_path   = string
+    function_name = string
+    handler       = string
+    runtime       = string
+    role_name     = string
+    policy_name   = string
+  })
+  default = {
+    timeout       = 30
+    package_type  = "zip"
+    source_dir    = "lambdas/report-job/build"
+    output_path   = "lambdas/report-job/outputs/package.zip"
+    function_name = "reportJobLambdaFunction"
+    handler       = "index.handler"
+    runtime       = "nodejs20.x"
+    role_name     = "nsse-production-report-job-lambda-role"
+    policy_name   = "nsse-production-report-job-lambda-policy"
+  }
+}
+
 variable "domain" {
   type    = string
   default = "relistapi.xyz"
@@ -290,6 +315,8 @@ variable "documentdb_cluster" {
     cluster_identifier              = string
     final_snapshot_identifier       = string
     engine                          = string
+    database_name                   = string
+    s3_certificate_path             = string
     master_username                 = string
     backup_retention_period         = number
     preferred_backup_window         = string
@@ -316,6 +343,8 @@ variable "documentdb_cluster" {
     cluster_identifier              = "nsse-production-documentdb-cluster"
     final_snapshot_identifier       = "nsse-production-documentdb-cluster-final-snapshot"
     engine                          = "docdb"
+    database_name                   = "notSoSimpleEcommerce"
+    s3_certificate_path             = "app/documentdb-ca.pem"
     master_username                 = "nsse"
     backup_retention_period         = 7
     preferred_backup_window         = "01:00-02:00"
