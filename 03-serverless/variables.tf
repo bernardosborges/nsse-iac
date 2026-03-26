@@ -274,7 +274,7 @@ variable "lambda_layer_node_modules" {
   default = {
     package_type        = "zip"
     source_dir          = "lambdas/layers/dependencies"
-    output_path         = "lambdas/order-confirmed/outputs/node_modules_layer.zip"
+    output_path         = "lambdas/layers/outputs/node_modules_layer.zip"
     layer_name          = "node_modules"
     compatible_runtimes = ["nodejs20.x"]
   }
