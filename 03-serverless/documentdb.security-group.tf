@@ -19,6 +19,14 @@ resource "aws_vpc_security_group_ingress_rule" "control_plane_to_documentdb_allo
 resource "aws_vpc_security_group_ingress_rule" "worker_to_documentdb_allow_all_traffic_ipv4" {
   security_group_id            = aws_security_group.documentdb.id
   referenced_security_group_id = data.aws_security_group.worker.id
+  ip_protocol                  = "tcp"
+  from_port                    = 27017
+  to_port                      = 27017
+}
+
+resource "aws_vpc_security_group_ingress_rule" "docdb_to_docdb_allow_all_traffic_ipv4" {
+  security_group_id            = aws_security_group.documentdb.id
+  referenced_security_group_id = aws_security_group.documentdb.id
   ip_protocol                  = "-1"
 }
 
