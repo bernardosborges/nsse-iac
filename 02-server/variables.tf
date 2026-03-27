@@ -279,3 +279,9 @@ variable "logs_bucket" {
     force_destroy = true
   }
 }
+
+variable "s3_ansible_bucket_name" {
+  type    = string
+  default = "nsse-ansible-bucket-ssm"
+}
+
