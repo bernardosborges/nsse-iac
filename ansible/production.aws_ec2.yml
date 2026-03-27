@@ -1,0 +1,9 @@
+plugin: amazon.aws.aws_ec2
+profile: dnn
+regions:
+  - us-east-1
+groups:
+  control_planes: "'nsse-production-control-plane' in tags.Name"
+  workers: "'nsse-production-worker' in tags.Name"
+hostnames:
+  - instance-id
