@@ -327,6 +327,7 @@ variable "documentdb_cluster" {
     skip_final_snapshot             = bool
     subnet_group_name               = string
     secret_name                     = string
+    recovery_window_in_days         = number
     parameter_group = object({
       family     = string
       name       = string
@@ -355,6 +356,7 @@ variable "documentdb_cluster" {
     skip_final_snapshot             = true # false in production
     subnet_group_name               = "nsse-production-documentdb-subnet-group"
     secret_name                     = "nsse-production-documentdb-secret"
+    recovery_window_in_days         = 0
     parameter_group = {
       family     = "docdb5.0"
       name       = "nsse-production-documentdb-parameter-group"
@@ -365,5 +367,25 @@ variable "documentdb_cluster" {
       identifier = "nsse-production-documentdb-single-instance"
       class      = "db.t3.medium"
     }
+  }
+}
+
+variable "eventbridge_scheduler_lambda_report_job" {
+  type = object({
+    schedule_name                 = string
+    schedule_group_name           = string
+    schedule_flexible_time_window = string
+    schedule_expression           = string
+    role_name                     = string
+    policy_name                   = string
+  })
+
+  default = {
+    schedule_name                 = "nsse-production-eventbridge-scheduler-lambda-report-job"
+    schedule_group_name           = "default"
+    schedule_flexible_time_window = "OFF"
+    schedule_expression           = "rate(1 minutes)"
+    role_name                     = "nsse-production-eventbridge-scheduler-role"
+    policy_name                   = "nsse-production-invoke-lambda-policy"
   }
 }
