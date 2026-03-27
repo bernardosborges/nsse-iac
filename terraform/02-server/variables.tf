@@ -72,7 +72,7 @@ variable "control_plane_launch_template" {
     name                                 = "nsse-production-debian-control-plane-lt"
     disable_api_stop                     = true
     disable_api_termination              = true
-    instance_type                        = "t3.micro"
+    instance_type                        = "t3.small"
     instance_initiated_shutdown_behavior = "terminate"
     user_data                            = "./cli/control-plane-user-data.sh"
     ebs = {
