@@ -1,5 +1,6 @@
 resource "aws_secretsmanager_secret" "documentdb" {
   name = var.documentdb_cluster.secret_name
+  recovery_window_in_days = var.documentdb_cluster.recovery_window_in_days
   tags = var.tags
 }
 
