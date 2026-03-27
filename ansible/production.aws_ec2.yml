@@ -1,3 +1,4 @@
+
 plugin: amazon.aws.aws_ec2
 profile: dnn
 regions:
@@ -7,3 +8,4 @@ groups:
   workers: "'nsse-production-worker' in tags.Name"
 hostnames:
   - instance-id
+  
