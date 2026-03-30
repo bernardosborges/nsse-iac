@@ -34,6 +34,7 @@ module "ec2_control_plane_instances" {
       max_healthy_percentage = var.control_plane_auto_scaling_group.instance_maintenance_policy.max_healthy_percentage
     }
     vpc_zone_identifier = data.aws_subnets.private_subnets.ids
+    target_group_arns   = [aws_lb_target_group.nlb_tcp.arn]
   }
   tags = var.tags
 }

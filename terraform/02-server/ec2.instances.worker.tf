@@ -34,6 +34,7 @@ module "ec2_worker_instances" {
       max_healthy_percentage = var.worker_auto_scaling_group.instance_maintenance_policy.max_healthy_percentage
     }
     vpc_zone_identifier = data.aws_subnets.private_subnets.ids
+    target_group_arns   = []
   }
   tags = var.tags
 }
